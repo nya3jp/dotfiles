@@ -1,0 +1,82 @@
+### mayu config file for 109->104 conversion
+
+
+# read the native 109 keymap
+
+include "109.mayu"
+
+
+# null key definition
+
+def key NULL = 0x00
+
+
+# remap to emulate HHKB
+
+if ( HHKBIZE )
+
+  def subst  S-*_2             = $COMMERCIAL_AT
+  def subst  S-*_6             = $CIRCUMFLEX_ACCENT
+  def subst  S-*_7             = $AMPERSAND
+  def subst  S-*_8             = $ASTERISK
+  def subst  S-*_9             = $LEFT_PARENTHESIS
+  def subst  S-*_0             = $RIGHT_PARENTHESIS
+  def subst  S-*Hyphen         = $LOW_LINE
+  def subst ~S-*Caret          = $EQUALS_SIGN
+  def subst  S-*Caret          = $PLUS_SIGN
+  def subst ~S-*Atmark         = $LEFT_SQUARE_BRACKET
+  def subst  S-*Atmark         = $LEFT_CURLY_BRACKET
+  def subst ~S-*OpenBracket    = $RIGHT_SQUARE_BRACKET
+  def subst  S-*OpenBracket    = $RIGHT_CURLY_BRACKET
+  def subst  S-*Semicolon      = $COLON
+  def subst ~S-*Colon          = $APOSTROPHE
+  def subst  S-*Colon          = $QUOTATION_MARK
+  def subst    *CloseBracket   = *Enter
+  def subst ~S-*BackSpace      = $GRAVE_ACCENT
+  def subst  S-*BackSpace      = $TILDE
+  def subst  A-BackSpace       = $ToggleIME
+  def subst    *ReverseSolidus = NULL
+  
+  if ( AGRESSIVE_ALT )
+    def subst    *LAlt           = *LCommand
+    def subst    *LCommand       = *LAlt
+    def subst    *Eisuu          = *LAlt
+    def subst    *Kana           = *RAlt
+    def subst    *RCommand       = *RAlt
+    
+    mod shift = LShift RShift
+    mod control = LControl
+    mod alt = RAlt LCommand RCommand Eisuu Kana
+    mod windows = LAlt
+  else
+    def subst    *Eisuu          = *LCommand
+    def subst    *Kana           = *RCommand
+    def subst    *RCommand       = *RCommand
+    
+    mod shift = LShift RShift
+    mod control = LControl
+    mod alt = LAlt RAlt
+    mod windows = LCommand Eisuu Kana RCommand
+  endif
+
+else # !HHKBIZE
+
+  if ( SWAP_COMMAND_ALT )
+    def subst *LAlt     = *LCommand
+    def subst *RAlt     = *RCommand
+    def subst *LCommand = *LALt
+    def subst *RCommand = *RALt
+    mod alt = LCommand RCommand
+    mod windows = LAlt RAlt
+  endif
+
+endif # HHKBIZE
+
+
+
+# minimal emacs keybind
+
+#key C-H = BackSpace
+#key C-M = Enter
+
+

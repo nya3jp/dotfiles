@@ -1,0 +1,298 @@
+;;;; -*- mode: emacs-lisp -*-
+
+
+;;; 日本語環境設定
+(set-language-environment "Japanese")
+(prefer-coding-system 'utf-8-unix)
+(set-default-coding-systems 'utf-8-unix)
+
+
+;;; load-path
+(setq load-path (cons "~/local/site-lisp" load-path))
+
+
+;;; font-lockの設定
+(global-font-lock-mode t)
+
+
+;;; 各種キーバインド
+(global-set-key "\C-h" 'delete-backward-char)
+(global-set-key "\C-c\C-r" 'recompile)
+(global-set-key "\M-p" 'scroll-down)
+(global-set-key "\M-n" 'scroll-up)
+
+
+;;; インデントポリシー
+(setq c-default-style "stroustrup")
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)
+
+(add-hook 'c-mode-common-hook
+          '(lambda ()
+             (progn
+               (c-toggle-hungry-state 1)
+               (setq c-basic-offset 2)
+               (local-set-key "\C-c\C-p" 'ps-print-buffer))))
+
+
+;;; elscreen
+(when (locate-library "elscreen")
+  (setq elscreen-prefix-key "\C-t")
+  (require 'elscreen)
+  ;(require 'elscreen-wl)
+
+  (defun elscreen-local-shell ()
+    "Open local shell with new screen."
+    (interactive)
+    (let* ((dir default-directory)
+           (buffer (get-buffer-create "*shell*"))
+           (screen (elscreen-find-screen-by-buffer buffer)))
+      (setq dir (native-path-to-shell-path dir))
+      (setq dir (replace-regexp-in-string "\\([^A-Za-z0-9/~]\\)" "\\\\\\1" dir))
+      (if (null screen)
+          (elscreen-create)
+        (elscreen-goto screen))
+      (switch-to-buffer buffer)
+      (shell)
+      (let ((proc (get-buffer-process buffer)))
+        (comint-send-string proc (format "cd %s ; echo -n \"cd \" ; pwd\n" dir)))))
+
+  (defun elscreen-detach-screen ()
+    "Detach external screen."
+    (interactive)
+    (start-process "screen-detach" nil "screen" "-X" "detach"))
+
+  (defadvice jump-to-register (around elscreen-jump-to-register activate)
+    (let ((window-configuration (current-window-configuration))
+          (buffer (current-buffer)))
+      ad-do-it
+      (unless (eq buffer (current-buffer))
+        (setq buffer (current-buffer))
+        (set-window-configuration window-configuration)
+        (elscreen-find-and-goto-by-buffer buffer t))))
+
+  (define-key elscreen-map "\C-s" 'elscreen-local-shell)
+  (define-key elscreen-map "s" 'elscreen-local-shell)
+  (define-key elscreen-map "d" 'elscreen-detach-screen)
+  )
+
+
+;;; 表示まわり
+(transient-mark-mode 1)
+(show-paren-mode 1)
+(line-number-mode t)
+(column-number-mode t)
+
+(tool-bar-mode nil)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+
+(when (locate-library "color-theme")
+  (require 'color-theme)
+  ;(color-theme-initialize)
+  (color-theme-clarity))
+
+
+;;; SKK
+(setq skk-egg-like-newline t)
+
+
+
+;;; shell
+(autoload 'ansi-color-for-comint-mode-on "ansi-color"
+   "Set `ansi-color-for-comint-mode' to t." t)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+(add-hook 'comint-output-filter-functions
+          'comint-watch-for-password-prompt)
+
+
+
+
+;;; yatex-mode
+(when (locate-library "yatex")
+  (setq YaTeX-kanji-code nil)
+  (setq auto-mode-alist
+        (cons (cons "\\.tex$" 'yatex-mode) auto-mode-alist))
+  (autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
+  (add-hook 'yatex-mode-hook
+            '(lambda()
+               (progn
+                 (setq YaTeX-close-paren-always nil)))) )
+
+
+;;; ruby-mode
+(when (locate-library "ruby-mode")
+  (autoload 'ruby-mode "ruby-mode"
+    "Mode for editing ruby source files" t)
+  (setq auto-mode-alist
+        (append '(("\\.rb$" . ruby-mode)) auto-mode-alist))
+  (setq interpreter-mode-alist (append '(("ruby" . ruby-mode))
+                                       interpreter-mode-alist)) )
+
+
+;;; tuareg-mode
+(when (locate-library "tuareg")
+  (setq auto-mode-alist (cons '("\\.ml\\w?" . tuareg-mode) auto-mode-alist))
+  (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t) )
+
+
+;;; haskell-mode
+(when (locate-library "haskell-mode")
+  (load "haskell-site-file")
+  (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+  (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+  (add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
+  (add-hook 'haskell-mode-hook 'imenu-add-menubar-index)
+  (autoload 'haskell-ghci-mode "haskell-ghci"
+    "Major mode for interacting with an inferior GHCi session." t)
+
+;;   (defun inferior-haskell-load-and-run-main ()
+;;     "Load and run main"
+;;     (interactive)
+;;     (inferior-haskell-load-file)
+;;     (inferior-haskell-send-command (inferior-haskell-process) "main"))
+;;   (define-key haskell-mode-map "\C-c\C-m" 'inferior-haskell-load-and-run-main)
+  )
+
+
+
+;;; psvn
+(when (locate-library "psvn")
+  (require 'psvn))
+
+
+;;; vc-svn
+(when (locate-library "vc-svn")
+  (setq vc-handled-backends '(SVN CVS) ))
+
+
+;;; wanderlust
+;(autoload 'wl-user-agent-compose "wl-draft" nil t)
+;(if (boundp 'mail-user-agent)
+;    (setq mail-user-agent 'wl-user-agent))
+;(if (fboundp 'define-mail-user-agent)
+;    (define-mail-user-agent
+;      'wl-user-agent
+;      'wl-user-agent-compose
+;      'wl-draft-send
+;      'wl-draft-kill
+;      'mail-send-hook))
+;(autoload 'elmo-split "elmo-split" "Split messages on the folder." t)
+;(setq pgg-default-scheme 'gpg
+;      pgg-cache-passphrase nil)
+;(eval-after-load
+;    "mime-edit"
+;  '(let ((text (assoc "text" mime-content-types)))
+;     (set-alist 'text "plain"
+;                '(("charset" "" "ISO-2022-JP" "US-ASCII"
+;                   "ISO-8859-1" "ISO-8859-8" "UTF-8")))
+;     (set-alist 'mime-content-types "text" (cdr text))))
+
+
+;;; 高機能なバッファのスイッチ
+(iswitchb-mode t)
+
+; キーバインドの追加
+(add-hook 'iswitchb-define-mode-map-hook
+          'iswitchb-my-keys)
+(defun iswitchb-my-keys ()
+  "Add my keybindings for iswitchb."
+  (define-key iswitchb-mode-map [right] 'iswitchb-next-match)
+  (define-key iswitchb-mode-map [left] 'iswitchb-prev-match)
+  (define-key iswitchb-mode-map "\C-f" 'iswitchb-next-match)
+  (define-key iswitchb-mode-map " " 'iswitchb-next-match)
+  (define-key iswitchb-mode-map "\C-b" 'iswitchb-prev-match)
+  )
+
+; バッファの選択中に内容を表示
+(defadvice iswitchb-exhibit
+  (after
+   iswitchb-exhibit-with-display-buffer
+   activate)
+  "選択している buffer を window に表示してみる。"
+  (when (and
+         (eq iswitchb-method iswitchb-default-method)
+         iswitchb-matches)
+    (select-window
+     (get-buffer-window (cadr (buffer-list))))
+    (let ((iswitchb-method 'samewindow))
+      (iswitchb-visit-buffer
+       (get-buffer (car iswitchb-matches))))
+    (select-window (minibuffer-window))))
+
+
+
+;;; バッファ名をユニークに
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+(setq uniquify-ignore-buffers-re "*[^*]+*")
+
+
+;;; copying
+(setq backup-by-copying-when-linked t)
+
+
+
+;;; placeholder
+(defun native-path-to-shell-path (arg)
+  arg)
+(defun shell-path-to-native-path (arg)
+  arg)
+
+
+;;; eshell
+(setq eshell-glob-include-dot-dot nil)
+
+
+(when (locate-library "scala-mode-auto")
+  (require 'scala-mode-auto))
+
+
+;;; tramp
+(setq tramp-shell-prompt-pattern "^.*[#$%>] *")
+
+
+;;; latex-mode
+(setq tex-compile-commands '(("make" "%r.tex")))
+
+
+;;; sgml-mode
+(setq sgml-basic-offset 4)
+
+
+;;; python-mode
+(add-hook 'python-mode-hook
+          '(lambda()
+             (setq python-indent 2)))
+
+
+;;; flymake
+(require 'flymake)
+(setq flymake-no-changes-timeout 0.5)
+(set-face-background 'flymake-errline "red4")
+(set-face-background 'flymake-warnline "dark slate blue")
+
+(add-hook 'latex-mode-hook
+          '(lambda ()
+             (flymake-mode t)))
+(defun flymake-get-tex-args (file-name)
+  (list "make" (list "-file-line-error" "-interaction=nonstopmode" "-kanji=utf8" file-name)))
+(setcdr (assoc "\\.tex\\'" flymake-allowed-file-name-masks)
+        '(flymake-simple-make-init))
+
+;;; tramp
+(require 'tramp)
+
+
+;;; Do not make backup files like hoge~ or #hoge#
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+
+
+;;; initial scratch message
+(setq inhibit-startup-message t)
+(insert (replace-regexp-in-string "HOGE" system-name "\
+;; This is GNU Emacs on HOGE.
+;; May Fate be with you.
+
+"))

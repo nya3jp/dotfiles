@@ -1,0 +1,187 @@
+;;;; -*- mode: emacs-lisp -*-
+
+;;; 日本語環境設定
+(set-w32-system-coding-system 'cp932-dos)
+(set-clipboard-coding-system 'cp932-dos)
+(setq default-process-coding-system '(utf-8-dos . utf-8-dos))
+(setq default-file-name-coding-system 'cp932-dos)
+
+;;; IMEの設定
+(mw32-ime-initialize)
+(setq default-input-method "MW32-IME")
+(setq-default mw32-ime-mode-line-state-indicator "[--]")
+(setq mw32-ime-mode-line-state-indicator-list '("[--]" "[あ]" "[--]"))
+(add-hook 'mw32-ime-on-hook
+          (function (lambda () (set-cursor-height 2))))
+(add-hook 'mw32-ime-off-hook
+          (function (lambda () (set-cursor-height 4))))
+
+
+;;; カーソルの設定
+(set-cursor-type 'box)
+
+
+;;; マウスカーソルを消す設定
+(setq w32-hide-mouse-on-key t)
+(setq w32-hide-mouse-timeout 5000)
+
+
+;;; TrueType フォント設定
+(defun ttfont-setup (fs font size)
+  (let ((fn font)
+        (n 49)
+        (s (- size)))
+    (w32-add-font
+     fs
+     `((spec
+        ;; ascii
+        ((:char-spec ascii :height any)
+         strict
+         (w32-logfont ,fn 0 ,s 400 0 nil nil nil 0 1 3 ,n))
+        ((:char-spec ascii :height any :weight bold)
+         strict
+         (w32-logfont ,fn 0 ,s 700 0 nil nil nil 0 1 3 ,n)
+         ((spacing . -1)))
+        ((:char-spec ascii :height any :weight normal :slant italic)
+         strict
+         (w32-logfont ,fn 0 ,s 400 0 t nil nil 0 1 3 ,n))
+        ((:char-spec ascii :height any :weight bold :slant italic)
+         strict
+         (w32-logfont ,fn 0 ,s 700 0 t nil nil 0 1 3 ,n)
+         ((spacing . -1)))
+        ;; katakana-jisx0201
+        ((:char-spec katakana-jisx0201 :height any)
+         strict
+         (w32-logfont ,fn 0 ,s 400 0 nil nil nil 128 1 3 ,n)
+         ((encoding . 1-byte-set-msb)))
+        ((:char-spec katakana-jisx0201 :height any :weight bold)
+         strict
+         (w32-logfont ,fn 0 ,s 700 0 nil nil nil 128 1 3 ,n)
+         ((encoding . 1-byte-set-msb) (spacing . -1)))
+        ((:char-spec katakana-jisx0201 :height any :weight normal :slant italic)
+         strict
+         (w32-logfont ,fn 0 ,s 400 0 t nil nil 128 1 3 ,n)
+         ((encoding . 1-byte-set-msb)))
+        ((:char-spec katakana-jisx0201 :height any :weight bold :slant italic)
+         strict
+         (w32-logfont ,fn 0 ,s 700 0 t nil nil 128 1 3 ,n)
+         ((encoding . 1-byte-set-msb) (spacing . -1)))
+        ;; japanese-jisx0208
+        ((:char-spec japanese-jisx0208 :height any)
+         strict
+         (w32-logfont ,fn 0 ,s 400 0 nil nil nil 128 1 3 ,n))
+        ((:char-spec japanese-jisx0208 :height any :weight bold)
+         strict
+         (w32-logfont ,fn 0 ,s 700 0 nil nil nil 128 1 3 ,n)
+         ((spacing . -1)))
+        ((:char-spec japanese-jisx0208 :height any :weight normal :slant italic)
+         strict
+         (w32-logfont ,fn 0 ,s 400 0 t nil nil 128 1 3 ,n))
+        ((:char-spec japanese-jisx0208 :height any :weight bold :slant italic)
+         strict
+         (w32-logfont ,fn 0 ,s 700 0 t nil nil 128 1 3 ,n)
+         ((spacing . -1))))))
+    ))
+
+
+(create-fontset-from-request "ttfontset"
+                             '((width . 8)
+                               (height . 16)
+                               (fixed . t)
+                               (italic . nil))
+                             '((family . "Osaka")
+                               ))
+
+(ttfont-setup "Osaka Tiny" "osaka_unicode" 14)
+(ttfont-setup "Osaka Small" "osaka_unicode" 16)
+(ttfont-setup "Osaka Normal" "osaka_unicode" 18)
+(ttfont-setup "Osaka Large" "osaka_unicode" 20)
+(ttfont-setup "Osaka Huge" "osaka_unicode" 28)
+(ttfont-setup "ゆたぽん Tiny" "ゆたぽん（コーディング）" 14)
+(ttfont-setup "ゆたぽん Small" "ゆたぽん（コーディング）" 16)
+(ttfont-setup "ゆたぽん Normal" "ゆたぽん（コーディング）" 18)
+(ttfont-setup "ゆたぽん Large" "ゆたぽん（コーディング）" 20)
+(ttfont-setup "ゆたぽん Huge" "ゆたぽん（コーディング）" 28)
+
+
+;;; 初期フレームの設定
+(setq default-frame-alist
+      (append '(
+                (foreground-color . "white")
+                (background-color . "black")
+;;              (foreground-color . "black")
+;;              (background-color . "LemonChiffon")
+                (border-color . "black")
+                (mouse-color . "white")
+                (cursor-color . "white")
+                (font . "ゆたぽん Small")
+                (width . 80)
+                (height . 30)
+                (top . 0)
+                (left . 0)
+                (alpha . nil))
+              default-frame-alist))
+
+
+;;; shell の設定
+(add-hook 'comint-output-filter-functions 'shell-strip-ctrl-m nil t)
+;(setq shell-file-name "bash")
+;(setq explicit-shell-file-name "bash")
+;(setq shell-command-switch "-c")
+;(setq explicit-bash-args '("--login" "-i"))
+(setq shell-file-name "/bin/perl")
+(setq explicit-shell-file-name "bash")
+(setq shell-command-switch "/bin/coainvoke")
+(setq explicit-bash-args '("-c" "/bin/coashell"))
+
+
+
+;;; 印刷の設定 (要Ghostscript)
+(require 'ps-print)
+(setq ps-print-color-p 'black-white
+      ps-lpr-command "C:/bin/gs/gs8.54/bin/gswin32c.exe"
+      ps-lpr-switches '("-sDEVICE=mswinpr2" "-dNOPAUSE" "-dBATCH")
+      printer-name ""
+      ps-printer-name ""
+      ps-print-name-option ""
+      ps-paper-type 'a4
+      ps-line-number t
+      ps-landscape-mode t
+      ps-number-of-columns 2
+      ps-multibyte-buffer 'non-latin-printer
+      )
+
+
+;;; SSL workaround
+
+(setq ssl-program-name "c:/cygwin/bin/openssl.exe")
+(setq ssl-program-arguments
+      '("s_client"
+        "-quiet"
+        "-host" host
+        "-port" service
+        ))
+
+
+;;; cygwinパスを有効にする
+(require 'cygwin-mount)
+(cygwin-mount-activate)
+
+
+
+;;; path translations
+(defun native-path-to-shell-path (arg)
+  (setq arg (replace-regexp-in-string "^c:/" "/fate/" arg))
+  (setq arg (replace-regexp-in-string "^~" "/fate/home" arg))
+  (setq arg (replace-regexp-in-string "^s:/" "/" arg))
+  arg)
+(defun shell-path-to-native-path (arg)
+  (setq arg (replace-regexp-in-string "^/fate/" "c:/" arg))
+  (setq arg (replace-regexp-in-string "^~" "c:/home" arg))
+  (setq arg (replace-regexp-in-string "^/" "s:/" arg))
+  arg)
+
+
+
+;;; chdir to home
+(cd "~")

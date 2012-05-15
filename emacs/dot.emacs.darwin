@@ -1,0 +1,36 @@
+;;;; -*- mode: emacs-lisp -*-
+
+;;; Font
+
+(if (eq window-system 'mac)
+    (progn
+      (require 'carbon-font)
+
+      (defvar carbon-font-encode-family-list-yutapon
+        '((ascii . "Yutapon coding Regular")
+          (japanese-jisx0208 . "Yutapon coding Regular")
+          (katakana-jisx0201 . "Yutapon coding Regular")
+          (japanese-jisx0212 . "Yutapon coding Regular")))
+
+      (carbon-font-create-fontset "yutapon"
+                                  carbon-font-defined-sizes
+                                  carbon-font-encode-family-list-yutapon)
+      (fixed-width-set-default-fontset
+       "-*-*-medium-r-normal--16-*-*-*-*-*-yutapon")))
+
+
+;;; full screen
+(defun fullscreen (&optional f)
+  (interactive)
+  (set-frame-parameter f 'fullscreen
+                       (if (frame-parameter f 'fullscreen) nil 'fullboth)))
+(global-set-key [f11] 'fullscreen)
+
+
+;;; elscreen
+(when (locate-library "elscreen")
+  (set-face-background 'elscreen-tab-background-face "black")
+  (set-face-background 'elscreen-tab-current-screen-face "white")
+  (set-face-background 'elscreen-tab-other-screen-face "gray")
+  )
+

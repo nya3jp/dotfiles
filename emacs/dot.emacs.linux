@@ -1,0 +1,44 @@
+;;;; -*- mode: emacs-lisp -*-
+
+;;; フォント設定
+(cond (window-system
+       (set-default-font "Yutapon coding Regular-15")
+       (set-fontset-font (frame-parameter nil 'font)
+                         'japanese-jisx0208
+                         '("Yutapon coding Regular" . "unicode-bmp"))
+       ))
+
+
+
+;;; 初期フレームの設定
+;; (setq default-frame-alist
+;;       (append (list
+;;                '(foreground-color . "white")
+;;                '(background-color . "black")
+;;                '(border-color . "black")
+;;                '(mouse-color . "white")
+;;                '(cursor-color . "white")
+;;                '(width . 80)
+;;                '(height . 30)
+;; ;               '(top . 0)
+;; ;               '(left . 0)
+;;                '(alpha . nil))
+;;               default-frame-alist))
+
+
+;;; uim
+(when (locate-library "uim")
+  (require 'uim-leim)
+  (setq default-input-method "japanese-canna-uim")
+  (setq uim-candidate-display-inline t)
+  )
+
+
+
+;;; elscreen
+(when (locate-library "elscreen")
+  (set-face-background 'elscreen-tab-background-face "brightblack")
+  (set-face-background 'elscreen-tab-current-screen-face "brightcyan")
+  (set-face-background 'elscreen-tab-other-screen-face "white")
+  )
+

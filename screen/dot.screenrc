@@ -1,0 +1,21 @@
+escape ^t^t
+bind ^g
+bind f
+bind ^f
+bind ^x
+bind x
+vbell off
+autodetach on
+backtick 1 0 0 id -un
+hardstatus alwayslastline "%{= bw}%02c%{-}  %-w%{=u kw} %n %t %{-}%+w %=%1`@%H"
+startup_message off
+defscrollback 10000
+defbce on
+defflow off
+term xterm-256color
+
+#bind "<" eval "exec sh -c \"/usr/bin/xsel -b -o > '$HOME/.clip.screen'\"" "readbuf '$HOME/.clip.screen'"
+#bind ">" eval "writebuf '$HOME/.clip.screen'" "exec sh -c \"/usr/bin/xsel -b -i < '$HOME/.clip.screen'\""
+
+msgminwait 0
+msgwait 0.5
