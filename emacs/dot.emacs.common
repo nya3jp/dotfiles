@@ -8,7 +8,7 @@
 
 
 ;;; load-path
-(setq load-path (cons "~/local/site-lisp" load-path))
+(setq load-path (cons "~/etc/site-lisp" load-path))
 
 
 ;;; font-lockの設定
@@ -27,12 +27,8 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
 
-(add-hook 'c-mode-common-hook
-          '(lambda ()
-             (progn
-               (c-toggle-hungry-state 1)
-               (setq c-basic-offset 2)
-               (local-set-key "\C-c\C-p" 'ps-print-buffer))))
+(require 'google-c-style)
+(add-hook 'c-mode-common-hook 'google-set-c-style)
 
 
 ;;; elscreen
