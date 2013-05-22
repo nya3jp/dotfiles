@@ -12,8 +12,10 @@ defbce on
 defflow off
 term xterm-256color
 
-bind "<" eval "exec xclip -selection clipboard -out '$HOME/.clip.screen'" "readbuf '$HOME/.clip.screen'" "exec rm '$HOME/.clip.screen'"
-bind ">" eval "writebuf '$HOME/.clip.screen'" "exec xclip -selection clipboard -in '$HOME/.clip.screen'" "exec rm '$HOME/.clip.screen'"
+# Enable 256color support in precise
+# http://robotsrule.us/vim/
+attrcolor b ".I"
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
 
 msgminwait 0
 msgwait 0

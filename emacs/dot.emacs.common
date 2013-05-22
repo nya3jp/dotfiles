@@ -85,7 +85,7 @@
 
 (when (locate-library "color-theme")
   (require 'color-theme)
-  ;(color-theme-initialize)
+  (color-theme-initialize)
   (color-theme-clarity))
 
 
