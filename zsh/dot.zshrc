@@ -24,6 +24,8 @@ mbp)      PCOLOR=36;;
 rhxl)     PCOLOR=35;;
 slb)      PCOLOR=32;;
 yuno)     PCOLOR=0;;
+snowfate) PCOLOR=37;;
+alicia)   PCOLOR=36;;
 *)        PCOLOR=35;;
 esac
 
