@@ -22,7 +22,7 @@ bardiche) PCOLOR="34;1";;
 fate)     PCOLOR=36;;
 mbp)      PCOLOR=36;;
 rhxl)     PCOLOR=35;;
-slb)      PCOLOR=35;;
+slb)      PCOLOR=32;;
 yuno)     PCOLOR=0;;
 *)        PCOLOR=35;;
 esac
