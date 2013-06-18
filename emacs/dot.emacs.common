@@ -9,6 +9,7 @@
 
 ;;; load-path
 (setq load-path (cons "~/etc/site-lisp" load-path))
+(setq load-path (cons "~/dotfiles/site-lisp" load-path))
 
 
 ;;; font-lockの設定
