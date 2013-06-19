@@ -1,32 +1,43 @@
 <?xml version="1.0"?>
 <root>
   <item>
-    <name>@nya3jp specials</name>
+    <name>nya's specials</name>
     <item>
-      <name>Command_L to Command_L / Eisu</name>
-      <identifier>nya.command_l_to_command_l_or_eisu</identifier>
-      <autogen>__KeyOverlaidModifier__ KeyCode::COMMAND_L, KeyCode::COMMAND_L, KeyCode::JIS_EISUU</autogen>
+      <name>Use JIS keyboard as US keyboard</name>
+      <identifier>nya.jp_to_us</identifier>
+      <autogen>__SetKeyboardType__ KeyboardType::MACBOOK</autogen>
+      <autogen>__KeyToKey__ KeyCode::JIS_YEN, KeyCode::BACKSLASH</autogen>
+      <autogen>__KeyToKey__ KeyCode::JIS_UNDERSCORE, KeyCode::DELETE</autogen>
+      <autogen>__KeyToKey__ KeyCode::DELETE, KeyCode::BACKQUOTE</autogen>
     </item>
     <item>
-      <name>Command_R to Option_R / Kana</name>
-      <identifier>nya.command_r_to_option_r_or_kana</identifier>
-      <autogen>__KeyOverlaidModifier__ KeyCode::COMMAND_R, KeyCode::OPTION_R, KeyCode::JIS_KANA</autogen>
-    </item>
-    <item>
-      <name>Help(114) to Control_L</name>
-      <appendix>You need to assign CapsLock to Help(114) in PCKeyboardHack</appendix>
-      <identifier>nya.help_to_control_l</identifier>
-      <autogen>__KeyToKey__ KeyCode::HELP, KeyCode::CONTROL_L</autogen>
-    </item>
-    <item>
-      <name>Option_L to Command_L</name>
-      <identifier>nya.option_l_to_command_l</identifier>
-      <autogen>__KeyToKey__ KeyCode::OPTION_L, KeyCode::COMMAND_L</autogen>
-    </item>
-    <item>
-      <name>Control_L to Option_L</name>
-      <identifier>nya.control_l_to_option_l</identifier>
-      <autogen>__KeyToKey__ KeyCode::CONTROL_L, KeyCode::OPTION_L</autogen>
+      <name>US keyboard hacks</name>
+      <item>
+        <name>Command_L to Command_L / Eisu</name>
+        <identifier>nya.command_l_to_command_l_or_eisu</identifier>
+        <autogen>__KeyOverlaidModifier__ KeyCode::COMMAND_L, KeyCode::COMMAND_L, KeyCode::JIS_EISUU</autogen>
+      </item>
+      <item>
+        <name>Command_R to Option_R / Kana</name>
+        <identifier>nya.command_r_to_option_r_or_kana</identifier>
+        <autogen>__KeyOverlaidModifier__ KeyCode::COMMAND_R, KeyCode::OPTION_R, KeyCode::JIS_KANA</autogen>
+      </item>
+      <item>
+        <name>Help(114) to Control_L</name>
+        <appendix>You need to assign CapsLock to Help(114) in PCKeyboardHack</appendix>
+        <identifier>nya.help_to_control_l</identifier>
+        <autogen>__KeyToKey__ KeyCode::HELP, KeyCode::CONTROL_L</autogen>
+      </item>
+      <item>
+        <name>Option_L to Command_L</name>
+        <identifier>nya.option_l_to_command_l</identifier>
+        <autogen>__KeyToKey__ KeyCode::OPTION_L, KeyCode::COMMAND_L</autogen>
+      </item>
+      <item>
+        <name>Control_L to Option_L</name>
+        <identifier>nya.control_l_to_option_l</identifier>
+        <autogen>__KeyToKey__ KeyCode::CONTROL_L, KeyCode::OPTION_L</autogen>
+      </item>
     </item>
   </item>
 </root>
