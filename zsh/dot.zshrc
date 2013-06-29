@@ -10,6 +10,9 @@ SHORTHOST=`hostname -s`
 if [ -f /etc/vanity-hostname ]; then
     SHORTHOST=`sed 's/\..*//g' < /etc/vanity-hostname`
 fi
+if [[ Darwin = "$KERNEL" ]]; then
+    SHORTHOST=$(scutil --get ComputerName)
+fi
 
 case "$SHORTHOST" in
 dhcp*)
