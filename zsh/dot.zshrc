@@ -183,9 +183,10 @@ CYGWIN)
     ;;
 esac
 
-# hg
+# misc
 
 export HGENCODING=utf-8
+export PIP_DOWNLOAD_CACHE=$HOME/.pip_download_cache
 
 
 # per-host settings
