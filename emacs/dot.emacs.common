@@ -36,7 +36,7 @@
 (when (locate-library "elscreen")
   (setq elscreen-prefix-key "\C-t")
   (require 'elscreen)
-  ;(require 'elscreen-wl)
+  (elscreen-start)
 
   (defun elscreen-local-shell ()
     "Open local shell with new screen."
@@ -134,14 +134,14 @@
 
 
 ;;; haskell-mode
-(when (locate-library "haskell-mode")
-  (load "haskell-site-file")
-  (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-  (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
-  (add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
-  (add-hook 'haskell-mode-hook 'imenu-add-menubar-index)
-  (autoload 'haskell-ghci-mode "haskell-ghci"
-    "Major mode for interacting with an inferior GHCi session." t)
+;; (when (locate-library "haskell-mode")
+;;   (load "haskell-site-file")
+;;   (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+;;   (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+;;   (add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
+;;   (add-hook 'haskell-mode-hook 'imenu-add-menubar-index)
+;;   (autoload 'haskell-ghci-mode "haskell-ghci"
+;;     "Major mode for interacting with an inferior GHCi session." t)
 
 ;;   (defun inferior-haskell-load-and-run-main ()
 ;;     "Load and run main"
@@ -149,7 +149,7 @@
 ;;     (inferior-haskell-load-file)
 ;;     (inferior-haskell-send-command (inferior-haskell-process) "main"))
 ;;   (define-key haskell-mode-map "\C-c\C-m" 'inferior-haskell-load-and-run-main)
-  )
+;;   )
 
 
 
