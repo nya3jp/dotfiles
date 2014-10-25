@@ -151,6 +151,8 @@ if ! [ -e "$PAGER" ]; then PAGER=/usr/bin/more; fi
 if ! [ -e "$PAGER" ]; then PAGER=more; fi
 export PAGER
 
+export LV=-c
+
 
 # alias
 
