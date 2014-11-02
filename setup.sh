@@ -12,6 +12,7 @@ map_symlink () {
         echo "WARNING: not found: $src"
     elif [ !  -e "$dst" ]; then
         echo "$dst -> $abssrc"
+        rm -f "$dst"
         ln -s "$abssrc" "$dst"
     elif [ -h "$dst" -a "`readlink "$dst"`" = "$abssrc" ]; then
         echo "$dst is already installed"
