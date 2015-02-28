@@ -278,6 +278,11 @@
 (add-hook 'before-save-hook 'gofmt-before-save)
 
 
+;;; rust-mode
+(autoload 'rust-mode "rust-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
+
+
 ;;; flymake
 (require 'flymake)
 (setq flymake-no-changes-timeout 0.5)
