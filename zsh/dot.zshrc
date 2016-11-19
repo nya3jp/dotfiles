@@ -22,7 +22,7 @@ esac
 case "$SHORTHOST" in
 linnis)   PCOLOR=31;;
 bardiche) PCOLOR="34;1";;
-fate)     PCOLOR=36;;
+fate)     PCOLOR=37;;
 mbp)      PCOLOR=36;;
 rhxl)     PCOLOR=35;;
 slb)      PCOLOR=32;;
