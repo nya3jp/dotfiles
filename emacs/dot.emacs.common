@@ -31,6 +31,10 @@
 (require 'google-c-style)
 (add-hook 'c-mode-common-hook 'google-set-c-style)
 
+(add-hook 'java-mode-hook
+          (lambda ()
+            (setq c-basic-offset 4)))
+
 
 ;;; elscreen
 (when (locate-library "elscreen")
@@ -284,18 +288,18 @@
 
 
 ;;; flymake
-(require 'flymake)
-(setq flymake-no-changes-timeout 0.5)
-(set-face-background 'flymake-errline "red4")
-(set-face-background 'flymake-warnline "dark slate blue")
+;; (require 'flymake)
+;; (setq flymake-no-changes-timeout 0.5)
+;; (set-face-background 'flymake-errline "red4")
+;; (set-face-background 'flymake-warnline "dark slate blue")
 
-(add-hook 'latex-mode-hook
-          '(lambda ()
-             (flymake-mode t)))
-(defun flymake-get-tex-args (file-name)
-  (list "make" (list "-file-line-error" "-interaction=nonstopmode" "-kanji=utf8" file-name)))
-(setcdr (assoc "\\.tex\\'" flymake-allowed-file-name-masks)
-        '(flymake-simple-make-init))
+;; (add-hook 'latex-mode-hook
+;;           '(lambda ()
+;;              (flymake-mode t)))
+;; (defun flymake-get-tex-args (file-name)
+;;   (list "make" (list "-file-line-error" "-interaction=nonstopmode" "-kanji=utf8" file-name)))
+;; (setcdr (assoc "\\.tex\\'" flymake-allowed-file-name-masks)
+;;         '(flymake-simple-make-init))
 
 ;;; tramp
 (require 'tramp)
@@ -304,6 +308,15 @@
 ;;; Do not make backup files like hoge~ or #hoge#
 (setq make-backup-files nil)
 (setq auto-save-default nil)
+
+
+;;; Deal with trailing spaces
+(setq show-trailing-whitespace t)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+
+;;; I hate electric-indent-mode
+(electric-indent-mode 0)
 
 
 ;;; initial scratch message

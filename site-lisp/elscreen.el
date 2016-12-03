@@ -582,7 +582,9 @@ from `elscreen-frame-confs', a cons cell."
     hooks-and-functions)))
 
 (elscreen-screen-modified-hook-setup
- (recenter 'force) (change-major-mode-hook 'force)
+ ;; [nya] Fixes garbles
+ ;(recenter 'force)
+ (change-major-mode-hook 'force)
  other-window
  window-configuration-change-hook window-size-change-functions
  (handle-switch-frame 'force) ;; GNU Emacs 21
@@ -1438,12 +1440,14 @@ Use \\[toggle-read-only] to permit editing."
             (current-screen (elscreen-get-current-screen))
             (half-space (propertize
                            " "
-                           ;'display '(space :width 0.5)  ; (nya) fix for emacs24
+                           ; [nya] Fix layout for emacs24
+                           ;'display '(space :width 0.5)
                            ))
             (tab-separator (propertize
                             " "
                             'face 'elscreen-tab-background-face
-                            ;'display '(space :width 0.5)  ; (nya) fix for emacs24
+                            ; [nya] Fix layout for emacs24
+                            ;'display '(space :width 0.5)
                             ))
             (control-tab (propertize
                           "<->"
