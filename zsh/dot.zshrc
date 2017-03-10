@@ -170,8 +170,9 @@ alias grep='grep --color=auto'
 
 case "$KERNEL" in
 Linux)
-    export LANG=ja_JP.UTF-8
-    export LC_MESSAGES=en_US.UTF-8
+    #export LANG=ja_JP.UTF-8
+    #export LC_MESSAGES=en_US.UTF-8
+    export LANG=en_US.UTF-8
     ;;
 CYGWIN)
     alias ls='ls --show-control-chars --color=tty'
