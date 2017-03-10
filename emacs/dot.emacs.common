@@ -319,6 +319,10 @@
 (electric-indent-mode 0)
 
 
+;;; yaml-mode
+(require 'yaml-mode)
+
+
 ;;; initial scratch message
 (setq inhibit-startup-message t)
 (insert (replace-regexp-in-string "HOGE" system-name "\
