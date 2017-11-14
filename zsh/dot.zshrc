@@ -93,6 +93,7 @@ export PIP_DOWNLOAD_CACHE=$HOME/.pip_download_cache
 alias s='screen -DR main'
 alias e='screen -c ~/.screenrc.emacs -DR emacs'
 alias grep='grep --color=auto'
+alias sort='LC_ALL=C sort'
 
 if [[ "$KERNEL" = "Linux" ]]; then
     alias ls='ls --color=tty'
