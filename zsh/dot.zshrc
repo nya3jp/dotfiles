@@ -45,14 +45,14 @@ export LANG=en_US.UTF-8
 export PATH=$HOME/local/sbin:$HOME/local/bin:/usr/sbin:/sbin:$PATH
 
 find_first() {
+    local p
     for command in "$@"; do
-        local path=`which "$command" 2>&1`
-        if [[ -n "$path" ]]; then
-            echo "$path"
-            exit 0
+        p=`which "$command" 2> /dev/null`
+        if [[ -x "$p" ]]; then
+            echo "$p"
+            break
         fi
     done
-    exit 1
 }
 
 export EDITOR=$(find_first vim vi nano)
