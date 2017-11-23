@@ -113,21 +113,6 @@ hosts=( ${(@)${${(M)${(s:# :)${(zj:# :)${(Lf)"$([[ -f ~/.ssh/config ]] && < ~/.s
 zstyle ':completion:*:hosts' hosts $hosts
 
 
-# process forwarded ssh-agent
-
-agent="$HOME/.ssh_agent"
-if [[ -S "$agent" ]]; then
-    export SSH_AUTH_SOCK="$agent"
-elif [[ -S "$SSH_AUTH_SOCK" ]]; then
-    case "$SSH_AUTH_SOCK" in
-    /tmp/*/agent.[0-9]*)
-        ln -snf "$SSH_AUTH_SOCK" "$agent"
-        export SSH_AUTH_SOCK="$agent"
-        ;;
-    esac
-fi
-
-
 # per-host settings
 
 [ -f ~/.zshrc.personal ] && source ~/.zshrc.personal
