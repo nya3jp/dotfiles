@@ -74,9 +74,14 @@ alias e='screen -c ~/.screenrc.emacs -DR emacs'
 alias grep='grep --color=auto'
 alias sort='LC_ALL=C sort'
 
-if [[ "$KERNEL" = "Linux" ]]; then
+case "$KERNEL" in
+Linux)
     alias ls='ls --color=tty'
-fi
+    ;;
+Darwin)
+    alias ls='ls -G'
+    ;;
+esac
 
 
 # completion
