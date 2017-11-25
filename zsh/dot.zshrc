@@ -40,24 +40,6 @@ setopt no_list_beep
 
 # common env settings
 
-export LANG=en_US.UTF-8
-
-export PATH=$HOME/local/sbin:$HOME/local/bin:/usr/sbin:/sbin:$PATH
-
-find_first() {
-    local p
-    for command in "$@"; do
-        p=`which "$command" 2> /dev/null`
-        if [[ -x "$p" ]]; then
-            echo "$p"
-            break
-        fi
-    done
-}
-
-export EDITOR=$(find_first vim vi nano)
-export PAGER=$(find_first lv less more)
-
 case "$SHORTHOST" in
 linnis)   PCOLOR=31;;
 bardiche) PCOLOR="34;1";;
@@ -83,10 +65,6 @@ dumb | emacs)
   PROMPT2="%_%# "
   ;;
 esac
-
-export LV=-c
-export HGENCODING=utf-8
-export PIP_DOWNLOAD_CACHE=$HOME/.pip_download_cache
 
 
 # alias
