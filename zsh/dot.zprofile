@@ -37,6 +37,19 @@ export HGENCODING=utf-8
 export PIP_DOWNLOAD_CACHE=$HOME/.pip_download_cache
 
 
+# process forwarded ssh-agent
+
+agent="$HOME/.ssh_agent"
+if [[ -S "$agent" ]]; then
+    export SSH_AUTH_SOCK="$agent"
+elif [[ -S "$SSH_AUTH_SOCK" ]]; then
+        ln -snf "$SSH_AUTH_SOCK" "$agent"
+        export SSH_AUTH_SOCK="$agent"
+        ;;
+    esac
+fi
+
+
 # per-host settings
 
 [ -f ~/.zprofile.personal ] && source ~/.zprofile.personal
