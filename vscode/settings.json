@@ -1,0 +1,12 @@
+{
+    "files.autoSave": "onFocusChange",
+    "files.exclude": {
+        "**/.idea": true,
+        "**/.venv": true
+    },
+    "go.formatFlags": [
+        "-s"
+    ],
+    "go.formatTool": "goimports",
+    "go.useLanguageServer": true
+}
