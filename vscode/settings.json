@@ -8,5 +8,8 @@
         "-s"
     ],
     "go.formatTool": "goimports",
-    "go.useLanguageServer": true
+    "go.useLanguageServer": true,
+    "editor.fontSize": 13,
+    "debug.console.fontSize": 13,
+    "terminal.integrated.fontSize": 13
 }
