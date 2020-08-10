@@ -1,0 +1,9 @@
+*~
+\#*
+.\#*
+._*
+*.swp
+
+.DS_Store
+.idea
+.vscode
