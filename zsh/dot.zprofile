@@ -1,55 +1,38 @@
-# check environment
-
-KERNEL="${$(uname)%%-*}"
-
-SHORTHOST=`hostname -s`
-if [[ -f /etc/vanity-hostname ]]; then
-    SHORTHOST=`sed 's/\..*//g' < /etc/vanity-hostname`
+# Detect the environment.
+SHORTHOST="$(hostname -s)"
+if [[ -f "/etc/vanity-hostname" ]]; then
+  SHORTHOST="$(sed 's/\..*//g' /etc/vanity-hostname)"
 fi
-case "$SHORTHOST" in
-dhcp*)
-    SHORTHOST=mbp;;
-esac
 
+# Set up PATH.
+export PATH="/usr/sbin:/sbin:$PATH"
+export PATH="$HOME/local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/local/depot_tools:$PATH"
+export PATH="$HOME/go/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 
-# common env settings
-
-export LANG=en_US.UTF-8
-
-export PATH=$HOME/local/bin:$HOME/.local/bin:/usr/sbin:/sbin:$PATH
-
+# Common env settings.
 find_first() {
-    local p
-    for command in "$@"; do
-        p=`which "$command" 2> /dev/null`
-        if [[ -x "$p" ]]; then
-            echo "$p"
-            break
-        fi
-    done
+  local p
+  for command in "$@"; do
+    p="$(which "$command" 2> /dev/null)"
+    if [[ -x "$p" ]]; then
+      echo "$p"
+      break
+    fi
+  done
 }
 
 export EDITOR=$(find_first vim vi nano)
-export PAGER=$(find_first lv less more)
-
-export LV=-c
+export GOPATH="$HOME/go"
 export HGENCODING=utf-8
-export PIP_DOWNLOAD_CACHE=$HOME/.pip_download_cache
+export LANG=en_US.UTF-8
+export LV=-c
+export PAGER=$(find_first lv less more)
+export PIP_DOWNLOAD_CACHE=$HOME/.cache/pip
 
-
-# process forwarded ssh-agent
-
-agent="$HOME/.ssh_agent"
-if [[ -S "$agent" ]]; then
-    export SSH_AUTH_SOCK="$agent"
-elif [[ -S "$SSH_AUTH_SOCK" ]]; then
-    ln -snf "$SSH_AUTH_SOCK" "$agent"
-    export SSH_AUTH_SOCK="$agent"
-fi
-
-
-# per-host settings
-
-[ -f ~/.zprofile.personal ] && source ~/.zprofile.personal
-[ -f ~/.zprofile.$SHORTHOST ] && source ~/.zprofile.$SHORTHOST
-[ -f ~/.zprofile.local ] && source ~/.zprofile.local
+# Include per-host settings.
+[[ -f "$HOME/.zprofile.personal" ]] && source "$HOME/.zprofile.personal"
+[[ -f "$HOME/.zprofile.$SHORTHOST" ]] && source "$HOME/.zprofile.$SHORTHOST"
+[[ -f "$HOME/.zprofile.local" ]] && source "$HOME/.zprofile.local"

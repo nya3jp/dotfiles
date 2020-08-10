@@ -1,19 +1,11 @@
-# check environment
-
+# Detect the environment.
+SHORTHOST="$(hostname -s)"
+if [[ -f "/etc/vanity-hostname" ]]; then
+  SHORTHOST="$(sed 's/\..*//g' /etc/vanity-hostname)"
+fi
 KERNEL="${$(uname)%%-*}"
 
-SHORTHOST=`hostname -s`
-if [[ -f /etc/vanity-hostname ]]; then
-    SHORTHOST=`sed 's/\..*//g' < /etc/vanity-hostname`
-fi
-case "$SHORTHOST" in
-dhcp*)
-    SHORTHOST=mbp;;
-esac
-
-
-# fundamental and common settings
-
+# Basic shell settings.
 bindkey -e
 
 HISTFILE=~/.zsh_history
@@ -38,24 +30,17 @@ setopt no_flow_control
 setopt no_list_beep
 
 
-# common env settings
-
-case "$SHORTHOST" in
-linnis)   PCOLOR=31;;
-bardiche) PCOLOR="34;1";;
-fate)     PCOLOR=37;;
-mbp)      PCOLOR=36;;
-rhxl)     PCOLOR=35;;
-slb)      PCOLOR=32;;
-yuno)     PCOLOR=0;;
-snowfate) PCOLOR=37;;
-alicia)   PCOLOR=36;;
-anz)      PCOLOR=37;;
-*)        PCOLOR=35;;
+# Prompt settings.
+case "$KERNEL.$SHORTHOST" in
+Darwin.*) PCOLOR="37";;  # white
+*.linnis) PCOLOR="31";;  # red
+*.hibiki) PCOLOR="32";;  # green
+*.bep)    PCOLOR="32";;  # green
+*)        PCOLOR="35";;  # magenta
 esac
 
 case "$TERM" in
-dumb | emacs)
+dumb|emacs)
   PROMPT="%m:%1~> "
   PROMPT2="%m:%1~> "
   unsetopt zle
@@ -67,28 +52,21 @@ dumb | emacs)
 esac
 
 
-# alias
-
+# Define aliases.
 alias s='screen -DR main'
 alias e='screen -c ~/.screenrc.emacs -DR emacs'
 alias grep='grep --color=auto'
 alias sort='LC_ALL=C sort'
 
 case "$KERNEL" in
-Linux)
-    alias ls='ls --color=tty'
-    ;;
-Darwin)
-    alias ls='ls -G'
-    ;;
+Linux)  alias ls='ls --color=tty';;
+Darwin) alias ls='ls -G';;
 esac
 
 
-# completion
-
+# Set up completion.
 autoload -U compinit
 compinit
-
 zmodload -i zsh/mathfunc
 zstyle ':completion:*' list-colors 'di=01;34' 'ln=01;36' 'so=01;35' 'ex=01;32' 'bd=01;33' 'cd=01;33' 'pi=01;33' 'su=01;37;41' 'sg=01;30;43' 'tw=01;30;42' 'ow=01;34;42'
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin
@@ -96,8 +74,7 @@ hosts=( ${(@)${${(M)${(s:# :)${(zj:# :)${(Lf)"$([[ -f ~/.ssh/config ]] && < ~/.s
 zstyle ':completion:*:hosts' hosts $hosts
 
 
-# per-host settings
-
-[ -f ~/.zshrc.personal ] && source ~/.zshrc.personal
-[ -f ~/.zshrc.$SHORTHOST ] && source ~/.zshrc.$SHORTHOST
-[ -f ~/.zshrc.local ] && source ~/.zshrc.local
+# Include per-host settings.
+[[ -f "$HOME/.zshrc.personal" ]] && source "$HOME/.zshrc.personal"
+[[ -f "$HOME/.zshrc.$SHORTHOST" ]] && source "$HOME/.zshrc.$SHORTHOST"
+[[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
