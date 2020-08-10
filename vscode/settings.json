@@ -1,6 +1,7 @@
 {
     "files.autoSave": "onFocusChange",
     "files.exclude": {
+        "**/._*": true,
         "**/.idea": true,
         "**/.venv": true
     },
@@ -9,7 +10,7 @@
     ],
     "go.formatTool": "goimports",
     "go.useLanguageServer": true,
-    "editor.fontSize": 13,
-    "debug.console.fontSize": 13,
-    "terminal.integrated.fontSize": 13
+    "editor.fontSize": 14,
+    "debug.console.fontSize": 14,
+    "terminal.integrated.fontSize": 14
 }
