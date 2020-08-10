@@ -32,6 +32,14 @@ export LV=-c
 export PAGER=$(find_first lv less more)
 export PIP_DOWNLOAD_CACHE=$HOME/.cache/pip
 
+# Process forwarded ssh-agent.
+if [[ -n "$SSH_CONNECTION" ]]; then
+  if [[ "$SSH_AUTH_SOCK" != "$HOME/.ssh_agent" && -S "$SSH_AUTH_SOCK" ]]; then
+    ln -snf "$SSH_AUTH_SOCK" "$HOME/.ssh_agent"
+  fi
+  export SSH_AUTH_SOCK="$HOME/.ssh_agent"
+fi
+
 # Include per-host settings.
 [[ -f "$HOME/.zprofile.personal" ]] && source "$HOME/.zprofile.personal"
 [[ -f "$HOME/.zprofile.$SHORTHOST" ]] && source "$HOME/.zprofile.$SHORTHOST"
