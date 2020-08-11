@@ -34,8 +34,8 @@ setopt no_list_beep
 case "$KERNEL.$SHORTHOST" in
 Darwin.*) PCOLOR="37";;  # white
 *.linnis) PCOLOR="31";;  # red
-*.hibiki) PCOLOR="32";;  # green
-*.bep)    PCOLOR="32";;  # green
+*.hibiki) PCOLOR="34";;  # blue
+*.bep)    PCOLOR="33";;  # brown
 *)        PCOLOR="35";;  # magenta
 esac
 
