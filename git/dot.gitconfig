@@ -12,3 +12,5 @@
 [include]
 	path = ~/.gitconfig.local
 	path = ~/.gitconfig.personal
+[http]
+	cookiefile = ~/.gitcookies
