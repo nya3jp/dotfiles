@@ -29,32 +29,21 @@ setopt no_auto_remove_slash
 setopt no_flow_control
 setopt no_list_beep
 
-
 # Prompt settings.
 case "$KERNEL.$SHORTHOST" in
-Darwin.*) PCOLOR="37";;  # white
-*.linnis) PCOLOR="31";;  # red
-*.ajisai) PCOLOR="34";;  # blue
-*.bep)    PCOLOR="33";;  # brown
-*)        PCOLOR="35";;  # magenta
+Darwin.*) PCOLOR="15";;  # white
+*.linnis) PCOLOR="1";;   # red
+*.haruna) PCOLOR="219";; # pink
+*.ajisai) PCOLOR="14";;  # cyan
+*.sena)   PCOLOR="21";;  # blue
+*)        PCOLOR="11";;  # yellow
 esac
 
-case "$TERM" in
-dumb|emacs)
-  PROMPT="%m:%1~> "
-  PROMPT2="%m:%1~> "
-  unsetopt zle
-  ;;
-*)
-  PROMPT="[%{[${PCOLOR}m%}%n@${SHORTHOST} %{[33m%}%1~%{[0m%}]%# "
-  PROMPT2="%_%# "
-  ;;
-esac
-
+PROMPT="[%{[38;5;${PCOLOR}m%}%n@${SHORTHOST} %{[33m%}%1~%{[0m%}]%# "
+PROMPT2="%_%# "
 
 # Define aliases.
 alias s='screen -DR main'
-alias e='screen -c ~/.screenrc.emacs -DR emacs'
 alias grep='grep --color=auto'
 alias sort='LC_ALL=C sort'
 
@@ -62,7 +51,6 @@ case "$KERNEL" in
 Linux)  alias ls='ls --color=tty';;
 Darwin) alias ls='ls -G';;
 esac
-
 
 # Set up completion.
 autoload -U compinit
@@ -72,7 +60,6 @@ zstyle ':completion:*' list-colors 'di=01;34' 'ln=01;36' 'so=01;35' 'ex=01;32' '
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin
 hosts=( ${(@)${${(M)${(s:# :)${(zj:# :)${(Lf)"$([[ -f ~/.ssh/config ]] && < ~/.ssh/config)"}%%\#*}}##host(|name) *}#host(|name) }/\*} )
 zstyle ':completion:*:hosts' hosts $hosts
-
 
 # Include per-host settings.
 [[ -f "$HOME/.zshrc.personal" ]] && source "$HOME/.zshrc.personal"
