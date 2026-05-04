@@ -37,7 +37,7 @@ export PIP_DOWNLOAD_CACHE=$HOME/.cache/pip
 
 # Process forwarded ssh-agent.
 if [[ -n "$SSH_CONNECTION" ]]; then
-  if [[ "$SSH_AUTH_SOCK" != "$HOME/.ssh_agent" && -S "$SSH_AUTH_SOCK" ]]; then
+  if [[ -S "$SSH_AUTH_SOCK" && "$(readlink -m "$SSH_AUTH_SOCK")" != "$(readlink -m "$HOME/.ssh_agent")" ]]; then
     ln -snf "$SSH_AUTH_SOCK" "$HOME/.ssh_agent"
   fi
   export SSH_AUTH_SOCK="$HOME/.ssh_agent"
