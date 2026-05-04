@@ -11,6 +11,10 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/local/depot_tools:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 
+if [[ -e "$HOME/.cargo/env" ]]; then
+  source "$HOME/.cargo/env"
+fi
+
 # Common env settings.
 find_first() {
   local p
@@ -27,8 +31,8 @@ export EDITOR=$(find_first vim vi nano)
 export GOPATH="$HOME/go"
 export HGENCODING=utf-8
 export LANG=en_US.UTF-8
-export LV=-c
-export PAGER=$(find_first lv less more)
+export LESS="-R"
+export PAGER="less"
 export PIP_DOWNLOAD_CACHE=$HOME/.cache/pip
 
 # Process forwarded ssh-agent.
