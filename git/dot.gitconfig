@@ -14,3 +14,8 @@
 	path = ~/.gitconfig.personal
 [http]
 	cookiefile = ~/.gitcookies
+[user]
+	name = Shuhei Takahashi
+	email = takahashi.shuhei@gmail.com
+[init]
+	defaultBranch = main
