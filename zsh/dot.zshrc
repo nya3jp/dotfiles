@@ -32,11 +32,11 @@ setopt no_list_beep
 # Prompt settings.
 case "$KERNEL.$SHORTHOST" in
 Darwin.*) PCOLOR="15";;  # white
-*.linnis) PCOLOR="1";;   # red
-*.haruna) PCOLOR="219";; # pink
-*.ajisai) PCOLOR="14";;  # cyan
+*.nozomi) PCOLOR="1";;   # red
+*.sophia) PCOLOR="245";; # gray
+*.roco)   PCOLOR="11";;  # yellow
 *.sena)   PCOLOR="21";;  # blue
-*)        PCOLOR="11";;  # yellow
+*)        PCOLOR="135";; # purple
 esac
 
 PROMPT="[%{[38;5;${PCOLOR}m%}%n@${SHORTHOST} %{[33m%}%1~%{[0m%}]%# "
